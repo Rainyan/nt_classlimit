@@ -179,7 +179,7 @@ public void OnPlayerSpawn(Event event, const char[] name, bool dontBroadcast)
 	
 	if (g_Cvar_InfractionMode.IntValue == IM_WARN && !IsClassAllowed(client, GetPlayerClass(client)))
 	{
-		Format(msg, sizeof(msg), "%s %N spawned with dissallowed class!", g_s_PluginTag, client);
+		Format(msg, sizeof(msg), "%s %N spawned with disallowed class!", g_s_PluginTag, client);
 		PrintToChatAll(msg);
 		PrintToConsoleAll(msg);
 		LogToGame(msg);
