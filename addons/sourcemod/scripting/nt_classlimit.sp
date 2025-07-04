@@ -55,7 +55,7 @@ PlayerState g_e_PlayerState[NEO_MAXPLAYERS + 1] = { STATE_OBSERVERMODE, ... };
 enum {
 	IM_IGNORE = 0,
 	IM_SLAY,
-
+	IM_WARN,
 	IM_ENUM_COUNT
 }
 
@@ -81,7 +81,7 @@ public Plugin myinfo = {
 	name		= "Neotokyo Class Limits",
 	author		= "kinoko, rain",
 	description	= "Enables allowing class limits for competitive play without the need for manual tracking",
-	version		= "1.4.1",
+	version		= "1.5.0",
 	url		= "https://github.com/kassibuss/nt_classlimit"
 };
 
@@ -105,9 +105,9 @@ public void OnPluginStart()
 	g_Cvar_MinSupports = CreateConVar("sm_minsupports", "32",
 		"Minimum amount of supports allowed per team",
 		_, true, 0.0, true, float(MaxClients));
-	g_Cvar_InfractionMode = CreateConVar("sm_classlimit_infraction_mode", "0",
+	g_Cvar_InfractionMode = CreateConVar("sm_classlimit_infraction_mode", "2",
 		"How should nt_classlimit react to class selection infractions. \
-0: do nothing, 1: slay the player",
+0: do nothing, 1: slay the player, 2: warn everyone",
 		_, true, 0.0, true, float(IM_ENUM_COUNT - 1));
 
 	AddCommandListener(Cmd_OnSetSkin, "SetVariant");
@@ -170,9 +170,19 @@ public void OnPlayerSpawn(Event event, const char[] name, bool dontBroadcast)
 		return;
 	}
 
-	if (!IsClassAllowed(client, GetPlayerClass(client)))
+	if (g_Cvar_InfractionMode.IntValue == IM_SLAY && !IsClassAllowed(client, GetPlayerClass(client)))
 	{
 		CreateTimer(0.1, Timer_DeferSlay, GetClientUserId(client));
+	}
+	
+	char msg[128];
+	
+	if (g_Cvar_InfractionMode.IntValue == IM_WARN && !IsClassAllowed(client, GetPlayerClass(client)))
+	{
+		Format(msg, sizeof(msg), "%s %N spawned with disallowed class!", g_s_PluginTag, client);
+		PrintToChatAll(msg);
+		PrintToConsoleAll(msg);
+		LogToGame(msg);
 	}
 }
 
