@@ -43,7 +43,6 @@ char g_s_PluginTag[] = "[CLASS-LIMITS]";
 char g_s_classnames[][] = { "None", "Recon", "Assault", "Support" };
 
 ConVar g_Cvar_MaxRecons, g_Cvar_MaxAssaults, g_Cvar_MaxSupports,
-	g_Cvar_MinRecons, g_Cvar_MinAssaults, g_Cvar_MinSupports,
 	g_Cvar_InfractionMode;
 
 DHookCallback g_PfnCbIds[view_as<int>(PFN_ENUM_COUNT)] = { INVALID_FUNCTION, ... };
@@ -95,15 +94,6 @@ public void OnPluginStart()
 		_, true, 0.0, true, float(MaxClients));
 	g_Cvar_MaxSupports = CreateConVar("sm_maxsupports", "32",
 		"Maximum amount of supports allowed per team",
-		_, true, 0.0, true, float(MaxClients));
-	g_Cvar_MinRecons = CreateConVar("sm_minrecons", "32",
-		"Minimum amount of recons allowed per team",
-		_, true, 0.0, true, float(MaxClients));
-	g_Cvar_MinAssaults = CreateConVar("sm_minassaults", "32",
-		"Minimum amount of assaults allowed per team",
-		_, true, 0.0, true, float(MaxClients));
-	g_Cvar_MinSupports = CreateConVar("sm_minsupports", "32",
-		"Minimum amount of supports allowed per team",
 		_, true, 0.0, true, float(MaxClients));
 	g_Cvar_InfractionMode = CreateConVar("sm_classlimit_infraction_mode", "2",
 		"How should nt_classlimit react to class selection infractions. \
