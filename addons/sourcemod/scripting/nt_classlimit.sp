@@ -124,7 +124,22 @@ public Action Command_Limit(int client, int args)
 {
 	if (args != 1)
 	{
-		ReplyToCommand(client, "%s Usage \"!classlimit(s) x\" where x sets the limit for all classes", g_s_PluginTag);
+		char argName[32];
+		if (!GetCmdArg(0, argName, sizeof(argName)))
+		{
+			ThrowError("Failed to get command name");
+		}
+		char triggers[1+1];
+#if SOURCEMOD_V_MAJOR != 1 || (SOURCEMOD_V_MAJOR == 1 && SOURCEMOD_V_MINOR <= 11)
+		triggers[0] = '!';
+#else
+		if (!GetPublicChatTriggers(triggers, sizeof(triggers)))
+		{
+			ThrowError("Failed to get public chat triggers");
+		}
+#endif
+		ReplyToCommand(client, "%s Usage \"%c%s x\" where x sets the limit for all classes",
+			g_s_PluginTag, triggers[0], argName);
 		return Plugin_Handled;
 	}
 
