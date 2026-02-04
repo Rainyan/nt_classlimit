@@ -130,7 +130,7 @@ public Action Command_Limit(int client, int args)
 			ThrowError("Failed to get command name");
 		}
 		char triggers[1+1];
-#if SOURCEMOD_V_MAJOR != 1 || (SOURCEMOD_V_MAJOR == 1 && SOURCEMOD_V_MINOR <= 11)
+#if SOURCEMOD_V_MAJOR < 1 || (SOURCEMOD_V_MAJOR == 1 && SOURCEMOD_V_MINOR <= 11)
 		triggers[0] = '!';
 #else
 		if (!GetPublicChatTriggers(triggers, sizeof(triggers)))
@@ -508,7 +508,7 @@ int GetNumPlayersOfClassInTeam(int class, int team, int ignore_client=-1)
 // Functions backported from SourceMod/SourcePawn SDK for older SM compatibility.
 // Used here under GPLv3 license: https://www.sourcemod.net/license.php
 // SourceMod (C) AlliedModders LLC.  All rights reserved.
-#if SOURCEMOD_V_MAJOR != 1 || (SOURCEMOD_V_MAJOR == 1 && SOURCEMOD_V_MINOR <= 10)
+#if SOURCEMOD_V_MAJOR < 1 || (SOURCEMOD_V_MAJOR == 1 && SOURCEMOD_V_MINOR <= 10)
 /**
  * Retrieves a numeric command argument given its index, from the current
  * console or server command. Will return 0 if the argument can not be
@@ -526,7 +526,7 @@ stock int GetCmdArgInt(int argnum)
 }
 #endif
 
-#if SOURCEMOD_V_MAJOR != 1 || (SOURCEMOD_V_MAJOR == 1 && SOURCEMOD_V_MINOR <= 8)
+#if SOURCEMOD_V_MAJOR < 1 || (SOURCEMOD_V_MAJOR == 1 && SOURCEMOD_V_MINOR <= 8)
 /**
  * Sends a message to every client's console.
  *
