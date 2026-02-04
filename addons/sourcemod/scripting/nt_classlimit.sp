@@ -80,7 +80,7 @@ public Plugin myinfo = {
 	name		= "Neotokyo Class Limits",
 	author		= "kinoko, rain",
 	description	= "Enables allowing class limits for competitive play without the need for manual tracking",
-	version		= "1.5.0",
+	version		= "1.5.1",
 	url		= "https://github.com/kassibuss/nt_classlimit"
 };
 
