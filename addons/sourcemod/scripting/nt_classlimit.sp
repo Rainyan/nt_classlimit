@@ -127,10 +127,8 @@ public Action Command_Limit(int client, int args)
 		ReplyToCommand(client, "%s Usage \"!classlimit(s) x\" where x sets the limit for all classes", g_s_PluginTag);
 		return Plugin_Handled;
 	}
-	
-	char limitArg[3 + 1];
-	GetCmdArg(1, limitArg, sizeof(limitArg));
-	int limit = StringToInt(limitArg);
+
+	int limit = GetCmdArgInt(1);
 
 	if(limit < 1 || limit > MaxClients)
 	{
