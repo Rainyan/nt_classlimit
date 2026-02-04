@@ -505,10 +505,10 @@ int GetNumPlayersOfClassInTeam(int class, int team, int ignore_client=-1)
 	return number_of_players;
 }
 
-// Backported from SourceMod/SourcePawn SDK for SM < 1.11 compatibility.
+// Functions backported from SourceMod/SourcePawn SDK for older SM compatibility.
 // Used here under GPLv3 license: https://www.sourcemod.net/license.php
 // SourceMod (C) AlliedModders LLC.  All rights reserved.
-#if SOURCEMOD_V_MAJOR <= 1 && SOURCEMOD_V_MINOR < 11
+#if SOURCEMOD_V_MAJOR != 1 || (SOURCEMOD_V_MAJOR == 1 && SOURCEMOD_V_MINOR <= 10)
 /**
  * Retrieves a numeric command argument given its index, from the current
  * console or server command. Will return 0 if the argument can not be
@@ -523,5 +523,28 @@ stock int GetCmdArgInt(int argnum)
 	GetCmdArg(argnum, str, sizeof(str));
 
 	return StringToInt(str);
+}
+#endif
+
+#if SOURCEMOD_V_MAJOR != 1 || (SOURCEMOD_V_MAJOR == 1 && SOURCEMOD_V_MINOR <= 8)
+/**
+ * Sends a message to every client's console.
+ *
+ * @param format		Formatting rules.
+ * @param ...		   Variable number of format parameters.
+ */
+stock void PrintToConsoleAll(const char[] format, any ...)
+{
+	char buffer[254];
+
+	for (int i = 1; i <= MaxClients; i++)
+	{
+		if (IsClientInGame(i))
+		{
+			SetGlobalTransTarget(i);
+			VFormat(buffer, sizeof(buffer), format, 2);
+			PrintToConsole(i, "%s", buffer);
+		}
+	}
 }
 #endif
